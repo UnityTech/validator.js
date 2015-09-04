@@ -227,6 +227,7 @@
       , allow_underscores: false
       , allow_trailing_dot: false
       , allow_protocol_relative_urls: false
+      , allow_private_host: true
     };
 
     validator.isURL = function (url, options) {
@@ -278,6 +279,10 @@
         }
         if (!validator.isIP(host) && !validator.isFQDN(host, options) &&
                 host !== 'localhost') {
+            return false;
+        }
+        if(!options.allow_private_host &&
+                (host === 'localhost' || validator.isPrivateIP(host))) {
             return false;
         }
         if (options.host_whitelist &&
@@ -350,6 +355,30 @@
             } else {
                 return blocks.length === expectedNumberOfBlocks;
             }
+        }
+        return false;
+    };
+    
+    validator.isPrivateIP = function (str, version) {
+        if(!validator.isIP(str, version)) {
+            return false;
+        }
+
+        version = validator.toString(version);
+
+        if(!version) {
+            return validator.isPrivateIP(str, 4) || validator.isPrivateIP(str, 6);
+        }
+        else if(version === '4') {
+            return /^10\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/.test(str) ||
+                /^192\.168\.([0-9]{1,3})\.([0-9]{1,3})/.test(str) ||
+                /^172\.(1[6-9]|2\d|30|31)\.([0-9]{1,3})\.([0-9]{1,3})/.test(str) ||
+                /^127\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/.test(str) ||
+                /^169\.254\.([0-9]{1,3})\.([0-9]{1,3})/.test(str);
+        }
+        else if(version === '6') {
+            return /^fc00:/.test(str) || /^fe80:/.test(str) ||
+            /^::1$/.test(str) || /^::$/.test(str);
         }
         return false;
     };

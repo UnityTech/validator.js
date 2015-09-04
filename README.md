@@ -56,6 +56,7 @@ $ bower install validator-js
 - **isHexColor(str)** - check if the string is a hexadecimal color.
 - **isHexadecimal(str)** - check if the string is a hexadecimal number.
 - **isIP(str [, version])** - check if the string is an IP (version 4 or 6).
+- **isPrivateIP(str [, version])** - check if the string is a private network IP (version 4 or 6)
 - **isISBN(str [, version])** - check if the string is an ISBN (version 10 or 13).
 - **isISIN(str)** - check if the string is an [ISIN][ISIN] (stock/security identifier).
 - **isISO8601(str)** - check if the string is a valid [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date.
@@ -70,7 +71,7 @@ $ bower install validator-js
 - **isNull(str)** - check if the string is null.
 - **isNumeric(str)** - check if the string contains only numbers.
 - **isSurrogatePair(str)** - check if the string contains any surrogate pairs chars.
-- **isURL(str [, options])** - check if the string is an URL. `options` is an object which defaults to `{ protocols: ['http','https','ftp'], require_tld: true, require_protocol: false, require_valid_protocol: true, allow_underscores: false, host_whitelist: false, host_blacklist: false, allow_trailing_dot: false, allow_protocol_relative_urls: false }`.
+- **isURL(str [, options])** - check if the string is an URL. `options` is an object which defaults to `{ protocols: ['http','https','ftp'], require_tld: true, require_protocol: false, require_valid_protocol: true, allow_underscores: false, host_whitelist: false, host_blacklist: false, allow_trailing_dot: false, allow_protocol_relative_urls: false, allow_private_hosts: true }`.
 - **isUUID(str [, version])** - check if the string is a UUID (version 3, 4 or 5).
 - **isUppercase(str)** - check if the string is uppercase.
 - **isVariableWidth(str)** - check if the string contains a mixture of full and half-width chars.
