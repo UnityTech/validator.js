@@ -397,6 +397,28 @@ describe('Validators', function () {
         });
     });
 
+    it('should let users exclude private ip addresses', function() {
+        test({
+            validator: 'isURL'
+            , args: [{
+                allow_private_host: false
+            }]
+            , valid: [
+                'http://1.2.3.4'
+                , 'http://foo.bar.com/'
+                , 'http://qux.com'
+            ]
+            , invalid: [
+                'http://127.0.0.1/'
+                , 'http://192.168.0.1/'
+                , 'http://172.16.10.1/'
+                , 'http://10.0.0.1/'
+                , 'http://169.254.169.254/'
+                , 'http://localhost/'
+            ]
+        });
+    });
+
     it('should validate IP addresses', function () {
         test({
             validator: 'isIP'
@@ -481,6 +503,88 @@ describe('Validators', function () {
               , '1.2.3.4'
               , '::1'
               , '2001:db8:0000:1:1:1:1:1'
+            ]
+        });
+    });
+
+    it('should validate private IP addresses', function() {
+        test({
+            validator: 'isPrivateIP'
+            , valid: [
+                '127.0.0.1'
+                , '10.0.0.1'
+                , '172.16.8.1'
+                , '192.168.0.1'
+                , '169.254.169.254'
+                , '::'
+                , '::1'
+                , 'fe80::a6db:30ff:fe98:e946'
+            ]
+            , invalid: [
+                'abc'
+                , '256.0.0.0'
+                , '0.0.0.0'
+                , '1.2.3.4'
+                , '0.0.0.256'
+                , '26.0.0.256'
+                , '::banana'
+                , 'banana::'
+                , '::1banana'
+                , '::1::'
+                , '1:'
+                , ':1'
+                , ':1:1:1::2'
+                , '1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1'
+                , '::11111'
+                , '11111:1:1:1:1:1:1:1'
+                , '2001:db8:0000:1:1:1:1::1'
+                , '0:0:0:0:0:0:ffff:127.0.0.1'
+                , '0:0:0:0:ffff:127.0.0.1'
+            ]
+        });
+        test({
+            validator: 'isPrivateIP'
+            , args: [ 4 ]
+            , valid: [
+                '127.0.0.1'
+                , '10.0.0.1'
+                , '172.16.8.1'
+                , '192.168.0.1'
+
+            ]
+            , invalid: [
+                '::'
+                , '::1'
+                , 'fe80::a6db:30ff:fe98:e946'
+            ]
+        });
+        test({
+            validator: 'isPrivateIP'
+            , args: [ 6 ]
+            , valid: [
+                '::'
+                , '::1'
+                , 'fe80::a6db:30ff:fe98:e946'
+            ]
+            , invalid: [
+                '127.0.0.1'
+                , '10.0.0.1'
+                , '172.16.8.1'
+                , '192.168.0.1'
+            ]
+        });
+        test({
+            validator: 'isPrivateIP'
+            , args: [ 10 ]
+            , valid: [
+            ]
+            , invalid: [
+                '127.0.0.1'
+                , '0.0.0.0'
+                , '255.255.255.255'
+                , '1.2.3.4'
+                , '::1'
+                , '2001:db8:0000:1:1:1:1:1'
             ]
         });
     });
