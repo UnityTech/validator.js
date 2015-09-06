@@ -419,6 +419,19 @@ describe('Validators', function () {
         });
     });
 
+    it('should let users specify if invalid ports are allowed', function() {
+        test({
+            validator: 'isURL'
+            , args: [{
+                require_valid_port: false
+            }]
+            , valid: [
+                'git@github.com:foo/bar.git',
+                'http://www.foobar.com:999999999/'
+            ]
+        });
+    });
+
     it('should validate IP addresses', function () {
         test({
             validator: 'isIP'
