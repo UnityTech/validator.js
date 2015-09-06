@@ -228,6 +228,7 @@
       , allow_trailing_dot: false
       , allow_protocol_relative_urls: false
       , allow_private_host: true
+      , require_valid_port: true
     };
 
     validator.isURL = function (url, options) {
@@ -273,7 +274,7 @@
         if (split.length) {
             port_str = split.join(':');
             port = parseInt(port_str, 10);
-            if (!/^[0-9]+$/.test(port_str) || port <= 0 || port > 65535) {
+            if (options.require_valid_port && (!/^[0-9]+$/.test(port_str) || port <= 0 || port > 65535)) {
                 return false;
             }
         }
