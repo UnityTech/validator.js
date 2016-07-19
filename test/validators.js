@@ -414,6 +414,8 @@ describe('Validators', function () {
                 , 'http://172.16.10.1/'
                 , 'http://10.0.0.1/'
                 , 'http://169.254.169.254/'
+                , 'http://0.0.0.0/'
+                , 'http://0.00.000.000/'
                 , 'http://localhost/'
             ]
         });
@@ -525,6 +527,7 @@ describe('Validators', function () {
             validator: 'isPrivateIP'
             , valid: [
                 '127.0.0.1'
+                , '0.0.0.0'
                 , '10.0.0.1'
                 , '172.16.8.1'
                 , '192.168.0.1'
@@ -536,7 +539,6 @@ describe('Validators', function () {
             , invalid: [
                 'abc'
                 , '256.0.0.0'
-                , '0.0.0.0'
                 , '1.2.3.4'
                 , '0.0.0.256'
                 , '26.0.0.256'
