@@ -421,6 +421,18 @@ describe('Validators', function () {
         });
     });
 
+    it('should let users specify if domains are allowed in auth username segment', function() {
+        test({
+            validator: 'isURL'
+            , args: [{
+              allow_auth_user_domain: true
+            }]
+            , valid: [
+                'http://user@domain.com:pass@www.foobar.com/'
+            ]
+        });
+    });
+
     it('should let users specify if invalid ports are allowed', function() {
         test({
             validator: 'isURL'
