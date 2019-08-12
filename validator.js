@@ -229,6 +229,7 @@
       , allow_protocol_relative_urls: false
       , allow_private_host: true
       , require_valid_port: true
+      , allow_auth_user_domain: false
     };
 
     validator.isURL = function (url, options) {
@@ -264,6 +265,12 @@
         split = url.split('@');
         if (split.length > 1) {
             auth = split.shift();
+            if (options.allow_auth_user_domain) {
+              while (split.length > 1) {
+                // auth segment continues until last '@'
+                auth += '@' + split.shift();
+              }
+            }
             if (auth.indexOf(':') >= 0 && auth.split(':').length > 2) {
                 return false;
             }
